@@ -1,12 +1,18 @@
 
-#
-# Original PHP code from http://blog.suminb.com/archives/558
-#
+"""
+Original PHP code from http://blog.suminb.com/archives/558
+"""
+
+__author__ = 'Sumin Byeon'
+__email__ = 'suminb@gmail.com'
+__version__ = '0.1.1'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
 
 def encode(n):
+    """Encodes a given integer ``n``."""
+    
     s = []
     while n > 0:
         r = n % BASE
@@ -19,6 +25,8 @@ def encode(n):
     return ''.join(s)
 
 def decode(b):
+    """Encodes a base62 encoded value ``b``."""
+
     if b.startswith('0z'):
         b = b[2:]
 
@@ -30,6 +38,8 @@ def decode(b):
     return v
 
 def __value__(ch):
+    """Decodes an individual digit of a base62 encoded string."""
+
     if ch in '01234567890':
         return ord(ch) - ord('0')
     elif ch in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
