@@ -5,6 +5,6 @@ python:
   - "3.2"
   - "pypy"
 
-  script:
-    - py.test tests
+script:
+  - py.test tests
 
