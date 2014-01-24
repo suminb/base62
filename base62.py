@@ -5,7 +5,7 @@ Original PHP code from http://blog.suminb.com/archives/558
 
 __author__ = 'Sumin Byeon'
 __email__ = 'suminb@gmail.com'
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
@@ -16,7 +16,7 @@ def encode(n):
     s = []
     while n > 0:
         r = n % BASE
-        n /= BASE
+        n //= BASE
 
         s.append(CHARSET[r])
 
