@@ -5,14 +5,14 @@ Original PHP code from http://blog.suminb.com/archives/558
 
 __author__ = 'Sumin Byeon'
 __email__ = 'suminb@gmail.com'
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
 
 def encode(n):
     """Encodes a given integer ``n``."""
-    
+
     s = []
     while n > 0:
         r = n % BASE
@@ -20,7 +20,10 @@ def encode(n):
 
         s.append(CHARSET[r])
 
-    s.reverse()
+    if len(s) > 0:
+        s.reverse()
+    else:
+        s.append('0')
 
     return ''.join(s)
 
