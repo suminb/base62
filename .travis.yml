@@ -9,6 +9,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+  # - "pypy"  # disable pypy builds until supported by trusty containers
 
 install:
   - pip install --requirement requirements.txt
