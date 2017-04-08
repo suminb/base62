@@ -10,7 +10,7 @@ python:
   - "pypy"
 
 install:
-  - pip install -r requirements.txt --use-mirrors
+  - pip install --requirement requirements.txt
 
 script:
   - py.test tests --cov base62 --durations=10
