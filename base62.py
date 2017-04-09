@@ -9,6 +9,7 @@ __version__ = '0.1.3'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
+DEFAULT_ENCODING = 'utf-8'
 
 
 def bytes_to_int(s):
@@ -45,7 +46,10 @@ def encode(n):
 
 def encodebytes(s):
     """Encode a bytestring into a bytes object containing multiple lines
-    of base64 data."""
+    of base62 data.
+
+    :param s: A byte array
+    """
     return encode(bytes_to_int(s))
 
 
@@ -61,6 +65,23 @@ def decode(b):
         i += 1
 
     return v
+
+
+def decodebytes(s):
+    """Decodes a bytestring of base62 data into a bytes object.
+
+    :param s: A bytestring to be decoded in base62
+    :rtype: bytearray
+    """
+    decoded = decode(s.decode(DEFAULT_ENCODING))
+    buf = []
+    while decoded > 0:
+        buf.append(decoded & 0xff)
+        decoded = int(decoded / 256)
+    buf.reverse()
+
+    return bytearray(buf)
+
 
 def __value__(ch):
     """Decodes an individual digit of a base62 encoded string."""

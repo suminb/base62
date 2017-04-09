@@ -33,3 +33,9 @@ def test_bytes_to_int(b, i):
 ])
 def test_encodebytes(b, i):
     assert base62.encodebytes(b) == base62.encode(i)
+
+
+@pytest.mark.parametrize('s', ['0', '1', 'a', 'z', 'ykzvd7ga'])
+def test_decodebytes(s):
+    assert base62.bytes_to_int(base62.decodebytes(
+        s.encode(base62.DEFAULT_ENCODING))) == base62.decode(s)
