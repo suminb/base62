@@ -10,6 +10,21 @@ __version__ = '0.1.3'
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
 
+
+def bytes_to_int(s):
+    """Converts a byte array to an integer value. Python 3 comes with a
+    built-in function to do this, but we would like to keep our code Python 2
+    compatible.
+
+    NOTE: Big-endian is assumed.
+    """
+    n = len(s)
+    cs = list(bytearray(s))
+    ds = [x << (8 * (n - 1 - i)) for i, x in enumerate(cs)]
+
+    return sum(ds)
+
+
 def encode(n):
     """Encodes a given integer ``n``."""
 
