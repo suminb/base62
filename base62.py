@@ -50,6 +50,7 @@ def encodebytes(s):
 
     :param s: A byte array
     """
+    _check_bytes_type(s)
     return encode(bytes_to_int(s))
 
 
@@ -73,6 +74,8 @@ def decodebytes(s):
     :param s: A bytestring to be decoded in base62
     :rtype: bytearray
     """
+    _check_bytes_type(s)
+
     decoded = decode(s.decode(DEFAULT_ENCODING))
     buf = []
     while decoded > 0:
@@ -94,3 +97,10 @@ def __value__(ch):
         return ord(ch) - ord('a') + 36
     else:
         raise ValueError('base62: Invalid character (%s)' % ch)
+
+
+def _check_bytes_type(s):
+    """Checks if the input is in an appropriate type."""
+    if not isinstance(s, bytes):
+        msg = 'expected bytes-like object, not %s' % s.__class__.__name__
+        raise TypeError(msg)
