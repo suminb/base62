@@ -93,4 +93,4 @@ def __value__(ch):
     elif ch in 'abcdefghijklmnopqrstuvwxyz':
         return ord(ch) - ord('a') + 36
     else:
-        raise RuntimeError('base62: Invalid character (%s)' % ch)
+        raise ValueError('base62: Invalid character (%s)' % ch)
