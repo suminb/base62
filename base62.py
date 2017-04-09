@@ -42,6 +42,13 @@ def encode(n):
 
     return ''.join(s)
 
+
+def encodebytes(s):
+    """Encode a bytestring into a bytes object containing multiple lines
+    of base64 data."""
+    return encode(bytes_to_int(s))
+
+
 def decode(b):
     """Encodes a base62 encoded value ``b``."""
 
