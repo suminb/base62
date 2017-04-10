@@ -20,13 +20,13 @@ def bytes_to_int(s, byteorder='big', signed=False):
     try:
         return int.from_bytes(s, byteorder, signed=signed)
     except AttributeError:
-        # Python 2.x
+        # For Python 2.x
         if byteorder != 'big' or signed:
             raise NotImplementedError()
 
+        # NOTE: This won't work if a generator is given
         n = len(s)
-        cs = list(bytearray(s))
-        ds = [x << (8 * (n - 1 - i)) for i, x in enumerate(cs)]
+        ds = (x << (8 * (n - 1 - i)) for i, x in enumerate(bytearray(s)))
 
         return sum(ds)
 
