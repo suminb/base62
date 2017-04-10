@@ -85,7 +85,7 @@ def decodebytes(s):
     buf = []
     while decoded > 0:
         buf.append(decoded & 0xff)
-        decoded = int(decoded / 256)
+        decoded //= 256
     buf.reverse()
 
     return bytearray(buf)
