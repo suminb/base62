@@ -12,18 +12,23 @@ BASE = 62
 DEFAULT_ENCODING = 'utf-8'
 
 
-def bytes_to_int(s):
+def bytes_to_int(s, byteorder='big', signed=False):
     """Converts a byte array to an integer value. Python 3 comes with a
     built-in function to do this, but we would like to keep our code Python 2
     compatible.
-
-    NOTE: Big-endian is assumed.
     """
-    n = len(s)
-    cs = list(bytearray(s))
-    ds = [x << (8 * (n - 1 - i)) for i, x in enumerate(cs)]
+    try:
+        return int.from_bytes(s, byteorder, signed=signed)
+    except AttributeError:
+        # Python 2.x
+        if byteorder != 'big' or signed:
+            raise NotImplementedError()
 
-    return sum(ds)
+        n = len(s)
+        cs = list(bytearray(s))
+        ds = [x << (8 * (n - 1 - i)) for i, x in enumerate(cs)]
+
+        return sum(ds)
 
 
 def encode(n):
