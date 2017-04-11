@@ -77,18 +77,18 @@ def decodebytes(s):
     """Decodes a bytestring of base62 data into a bytes object.
 
     :param s: A bytestring to be decoded in base62
-    :rtype: bytearray
+    :rtype: bytes
     """
     _check_bytes_type(s)
 
     decoded = decode(s.decode(DEFAULT_ENCODING))
-    buf = []
+    buf = bytearray()
     while decoded > 0:
         buf.append(decoded & 0xff)
         decoded //= 256
     buf.reverse()
 
-    return bytearray(buf)
+    return bytes(buf)
 
 
 def __value__(ch):
