@@ -50,8 +50,7 @@ def encode(n):
 
 
 def encodebytes(s):
-    """Encode a bytestring into a bytes object containing multiple lines
-    of base62 data.
+    """Encode a bytestring into a base62 string.
 
     :param s: A byte array
     """
