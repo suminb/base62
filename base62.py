@@ -67,7 +67,7 @@ def decode(b):
 
     l, i, v = len(b), 0, 0
     for x in b:
-        v += __value__(x) * (BASE**(l-(i+1)))
+        v += __value__(x) * (BASE ** (l - (i + 1)))
         i += 1
 
     return v
