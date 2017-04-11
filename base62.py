@@ -5,7 +5,7 @@ Original PHP code from http://blog.suminb.com/archives/558
 
 __author__ = 'Sumin Byeon'
 __email__ = 'suminb@gmail.com'
-__version__ = '0.1.3'
+__version__ = '0.2.0'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
