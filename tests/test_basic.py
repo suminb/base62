@@ -33,5 +33,14 @@ def test_encodebytes(b, i):
 
 @pytest.mark.parametrize('s', ['0', '1', 'a', 'z', 'ykzvd7ga'])
 def test_decodebytes(s):
-    assert base62.bytes_to_int(base62.decodebytes(
-        s.encode(base62.DEFAULT_ENCODING))) == base62.decode(s)
+    assert base62.bytes_to_int(base62.decodebytes(s)) == base62.decode(s)
+
+
+def test_roundtrip():
+    """Ensures type consistency. Suggested by @dhimmel"""
+    input_bytes = b'my bytes to encode'
+    base62_encoded = base62.encodebytes(input_bytes)
+    assert isinstance(base62_encoded, str)
+    output_bytes = base62.decodebytes(base62_encoded)
+    assert isinstance(output_bytes, bytes)
+    assert input_bytes == output_bytes
