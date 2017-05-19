@@ -93,13 +93,9 @@ def decodebytes(s):
 def __value__(ch):
     """Decodes an individual digit of a base62 encoded string."""
 
-    if ch in '01234567890':
-        return ord(ch) - ord('0')
-    elif ch in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-        return ord(ch) - ord('A') + 10
-    elif ch in 'abcdefghijklmnopqrstuvwxyz':
-        return ord(ch) - ord('a') + 36
-    else:
+    try:
+        return CHARSET.index(ch)
+    except ValueError:
         raise ValueError('base62: Invalid character (%s)' % ch)
 
 
