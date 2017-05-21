@@ -30,7 +30,7 @@ This certainly gives a more concise look than the following.
 
 This was the original motivation to write this module, but there shall be much
 more broader potential use cases of this module. The main advantage of
-``base62`` is that it is URL-safe (as opposed to ``base64``) due to lack of
+``base62`` is that it is URL-safe (as opposed to ``base64``) due to the lack of
 special characters such as '``/``' or '``=``'. Another key aspect is that the
 alphabetical orders of the original (unencoded) data is preserved when encoded.
 In other words, encoded data can be sorted without being decoded at all.
