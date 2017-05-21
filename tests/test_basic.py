@@ -15,8 +15,11 @@ bytes_int_pairs = [
 
 def test_basic():
     assert base62.encode(0) == '0'
+    assert base62.encode(0, minlen=0) == '0'
+    assert base62.encode(0, minlen=1) == '0'
     assert base62.encode(0, minlen=5) == '00000'
     assert base62.decode('0') == 0
+    assert base62.decode('0000') == 0
     assert base62.decode('000001') == 1
 
     assert base62.encode(34441886726) == 'base62'

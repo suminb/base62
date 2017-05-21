@@ -1,11 +1,10 @@
-
 """
 Original PHP code from http://blog.suminb.com/archives/558
 """
 
 __author__ = 'Sumin Byeon'
 __email__ = 'suminb@gmail.com'
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
@@ -31,7 +30,7 @@ def bytes_to_int(s, byteorder='big', signed=False):
         return sum(ds)
 
 
-def encode(n, minlen=0):
+def encode(n, minlen=1):
     """Encodes a given integer ``n``."""
 
     chs = []
