@@ -1,4 +1,3 @@
-
 """
 Original PHP code from http://blog.suminb.com/archives/558
 """
@@ -31,7 +30,7 @@ def bytes_to_int(s, byteorder='big', signed=False):
         return sum(ds)
 
 
-def encode(n, minlen=0):
+def encode(n, minlen=1):
     """Encodes a given integer ``n``."""
 
     chs = []
