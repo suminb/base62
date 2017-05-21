@@ -30,3 +30,19 @@ Usage
    :target: https://travis-ci.org/suminb/base62
 .. |PyPI| image:: https://img.shields.io/pypi/v/pybase62.svg
    :target: https://pypi.python.org/pypi/pybase62
+
+
+Tests
+-----
+
+You may run some test cases to ensure all functionalities are operational.
+
+::
+
+    py.test -v
+
+If ``pytest`` is not installed, you may want to run the following commands:
+
+::
+
+    pip install -r tests/requirements.txt

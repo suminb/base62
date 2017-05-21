@@ -12,7 +12,7 @@ python:
   # - "pypy"  # disable pypy builds until supported by trusty containers
 
 install:
-  - pip install --requirement requirements.txt
+  - pip install --requirement tests/requirements.txt
 
 script:
   - py.test tests --cov base62 --durations=10
