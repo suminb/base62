@@ -31,22 +31,24 @@ def bytes_to_int(s, byteorder='big', signed=False):
         return sum(ds)
 
 
-def encode(n):
+def encode(n, minlen=0):
     """Encodes a given integer ``n``."""
 
-    s = []
+    chs = []
     while n > 0:
         r = n % BASE
         n //= BASE
 
-        s.append(CHARSET[r])
+        chs.append(CHARSET[r])
 
-    if len(s) > 0:
-        s.reverse()
+    if len(chs) > 0:
+        chs.reverse()
     else:
-        s.append('0')
+        chs.append('0')
 
-    return ''.join(s)
+    s = ''.join(chs)
+    s = CHARSET[0] * max(minlen - len(s), 0) + s
+    return s
 
 
 def encodebytes(s):
@@ -91,13 +93,9 @@ def decodebytes(s):
 def __value__(ch):
     """Decodes an individual digit of a base62 encoded string."""
 
-    if ch in '01234567890':
-        return ord(ch) - ord('0')
-    elif ch in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
-        return ord(ch) - ord('A') + 10
-    elif ch in 'abcdefghijklmnopqrstuvwxyz':
-        return ord(ch) - ord('a') + 36
-    else:
+    try:
+        return CHARSET.index(ch)
+    except ValueError:
         raise ValueError('base62: Invalid character (%s)' % ch)
 
 
