@@ -1,21 +1,27 @@
+# -*- coding: utf-8 -*-
 """
-Original PHP code from http://blog.suminb.com/archives/558
+base62
+~~~~~~
+
+Originated from http://blog.suminb.com/archives/558
 """
 
+__title__ = 'base62'
 __author__ = 'Sumin Byeon'
 __email__ = 'suminb@gmail.com'
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
-DEFAULT_ENCODING = 'utf-8'
 
 
 def bytes_to_int(s, byteorder='big', signed=False):
-    """Converts a byte array to an integer value. Python 3 comes with a
-    built-in function to do this, but we would like to keep our code Python 2
-    compatible.
+    """Converts a byte array to an integer value.
+
+    Python 3 comes with a built-in function to do this, but we would like to
+    keep our code Python 2 compatible.
     """
+
     try:
         return int.from_bytes(s, byteorder, signed=signed)
     except AttributeError:
@@ -51,10 +57,11 @@ def encode(n, minlen=1):
 
 
 def encodebytes(s):
-    """Encode a bytestring into a base62 string.
+    """Encodes a bytestring into a base62 string.
 
     :param s: A byte array
     """
+
     _check_bytes_type(s)
     return encode(bytes_to_int(s))
 
@@ -67,7 +74,7 @@ def decode(b):
 
     l, i, v = len(b), 0, 0
     for x in b:
-        v += __value__(x) * (BASE ** (l - (i + 1)))
+        v += _value(x) * (BASE ** (l - (i + 1)))
         i += 1
 
     return v
@@ -79,6 +86,7 @@ def decodebytes(s):
     :param s: A string to be decoded in base62
     :rtype: bytes
     """
+
     decoded = decode(s)
     buf = bytearray()
     while decoded > 0:
@@ -89,7 +97,7 @@ def decodebytes(s):
     return bytes(buf)
 
 
-def __value__(ch):
+def _value(ch):
     """Decodes an individual digit of a base62 encoded string."""
 
     try:
@@ -100,6 +108,7 @@ def __value__(ch):
 
 def _check_bytes_type(s):
     """Checks if the input is in an appropriate type."""
+
     if not isinstance(s, bytes):
         msg = 'expected bytes-like object, not %s' % s.__class__.__name__
         raise TypeError(msg)
