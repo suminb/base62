@@ -13,6 +13,10 @@ bytes_int_pairs = [
 ]
 
 
+def test_const():
+    assert len(base62.CHARSET) == base62.BASE == 62
+
+
 def test_basic():
     assert base62.encode(0) == '0'
     assert base62.encode(0, minlen=0) == '0'
