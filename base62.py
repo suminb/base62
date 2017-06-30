@@ -67,7 +67,7 @@ def encodebytes(s):
 
 
 def decode(b):
-    """Encodes a base62 encoded value ``b``."""
+    """Decodes a base62 encoded value ``b``."""
 
     if b.startswith('0z'):
         b = b[2:]
