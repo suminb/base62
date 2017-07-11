@@ -14,10 +14,10 @@ python:
 install:
   - pip install --requirement tests/requirements.txt
   - pip install cython
-  - pip install -e .
 
 script:
-  - py.test tests --cov base62 --durations=10
+  - py.test -v tests --cov base62 --durations=10
+  - python setup.py build_ext  # make sure the cythonized code is built
 
 after_success:
   - coveralls
