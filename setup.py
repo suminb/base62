@@ -1,7 +1,15 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from Cython.Build import cythonize
+from setuptools import setup
+from setuptools.extension import Extension
+
 import base62
+
+
+cython_extensions = [
+    Extension('base62', ['base62.py']),
+]
 
 
 def readme():
@@ -14,6 +22,7 @@ def readme():
 
 setup(name='pybase62',
       py_modules=['base62'],
+      ext_modules=cythonize(cython_extensions),
       version=base62.__version__,
       description='Python module for base62 encoding',
       long_description=readme(),
@@ -21,4 +30,4 @@ setup(name='pybase62',
       author_email='suminb@gmail.com',
       url='http://github.com/suminb/base62',
       packages=[],
-     )
+      )

@@ -13,6 +13,8 @@ python:
 
 install:
   - pip install --requirement tests/requirements.txt
+  - pip install cython
+  - pip install -e .
 
 script:
   - py.test tests --cov base62 --durations=10
