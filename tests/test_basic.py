@@ -64,3 +64,8 @@ def test_roundtrip(input_bytes):
 def test_invalid_alphabet():
     with pytest.raises(ValueError):
         base62.decode('+')
+
+
+def test_invalid_string():
+    with pytest.raises(TypeError):
+        base62.encodebytes({})
