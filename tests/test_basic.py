@@ -59,3 +59,8 @@ def test_roundtrip(input_bytes):
     output_bytes = base62.decodebytes(base62_encoded)
     assert isinstance(output_bytes, bytes)
     assert input_bytes == output_bytes
+
+
+def test_invalid_alphabet():
+    with pytest.raises(ValueError):
+        base62.decode('+')
