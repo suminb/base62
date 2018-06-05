@@ -29,6 +29,11 @@ def test_basic():
     assert base62.encode(34441886726) == 'base62'
     assert base62.decode('base62') == 34441886726
 
+    # NOTE: For backward compatibility. When I first wrote this module in PHP,
+    # I used to use the `0z` prefix to denote a base62 encoded string (similar
+    # to `0x` for hexadecimal strings).
+    assert base62.decode('0zbase62') == 34441886726
+
 
 @pytest.mark.parametrize('b, i', bytes_int_pairs)
 def test_bytes_to_int(b, i):
