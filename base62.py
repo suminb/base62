@@ -11,7 +11,7 @@ __author__ = 'Sumin Byeon'
 __email__ = 'suminb@gmail.com'
 __version__ = '0.3.3'
 
-CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+CHARSET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 BASE = 62
 
 
