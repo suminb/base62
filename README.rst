@@ -1,7 +1,7 @@
 base62
 ======
 
-|Build Status| |PyPI|
+|Build Status| |Coveralls| |PyPI|
 
 A Python module for ``base62`` encoding. Ported from PHP code that I wrote
 in mid-2000, which can be found
@@ -11,6 +11,8 @@ in mid-2000, which can be found
    :target: https://travis-ci.org/suminb/base62
 .. |PyPI| image:: https://img.shields.io/pypi/v/pybase62.svg
    :target: https://pypi.python.org/pypi/pybase62
+.. |Coveralls| image:: https://coveralls.io/repos/github/suminb/base62/badge.svg?branch=master
+   :target: https://coveralls.io/github/suminb/base62?branch=develop
 
 
 Rationale

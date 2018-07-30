@@ -13,6 +13,10 @@ bytes_int_pairs = [
 ]
 
 
+def test_const():
+    assert len(base62.CHARSET) == base62.BASE == 62
+
+
 def test_basic():
     assert base62.encode(0) == '0'
     assert base62.encode(0, minlen=0) == '0'
@@ -24,6 +28,11 @@ def test_basic():
 
     assert base62.encode(34441886726) == 'base62'
     assert base62.decode('base62') == 34441886726
+
+    # NOTE: For backward compatibility. When I first wrote this module in PHP,
+    # I used to use the `0z` prefix to denote a base62 encoded string (similar
+    # to `0x` for hexadecimal strings).
+    assert base62.decode('0zbase62') == 34441886726
 
 
 @pytest.mark.parametrize('b, i', bytes_int_pairs)
@@ -50,3 +59,13 @@ def test_roundtrip(input_bytes):
     output_bytes = base62.decodebytes(base62_encoded)
     assert isinstance(output_bytes, bytes)
     assert input_bytes == output_bytes
+
+
+def test_invalid_alphabet():
+    with pytest.raises(ValueError):
+        base62.decode('+')
+
+
+def test_invalid_string():
+    with pytest.raises(TypeError):
+        base62.encodebytes({})
