@@ -9,7 +9,7 @@ Originated from http://blog.suminb.com/archives/558
 __title__ = 'base62'
 __author__ = 'Sumin Byeon'
 __email__ = 'suminb@gmail.com'
-__version__ = '0.3.2'
+__version__ = '0.3.3'
 
 CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
@@ -67,7 +67,7 @@ def encodebytes(s):
 
 
 def decode(b):
-    """Encodes a base62 encoded value ``b``."""
+    """Decodes a base62 encoded value ``b``."""
 
     if b.startswith('0z'):
         b = b[2:]
