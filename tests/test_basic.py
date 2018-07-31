@@ -14,7 +14,8 @@ bytes_int_pairs = [
 
 
 def test_const():
-    assert len(base62.CHARSET) == base62.BASE == 62
+    assert len(base62.CHARSET_DEFAULT) == base62.BASE == 62
+    assert len(base62.CHARSET_INVERTED) == base62.BASE == 62
 
 
 def test_basic():
@@ -33,6 +34,26 @@ def test_basic():
     # I used to use the `0z` prefix to denote a base62 encoded string (similar
     # to `0x` for hexadecimal strings).
     assert base62.decode('0zbase62') == 34441886726
+
+
+def test_basic_inverted():
+    kwargs = {'charset': base62.CHARSET_INVERTED}
+
+    assert base62.encode(0, **kwargs) == '0'
+    assert base62.encode(0, minlen=0, **kwargs) == '0'
+    assert base62.encode(0, minlen=1, **kwargs) == '0'
+    assert base62.encode(0, minlen=5, **kwargs) == '00000'
+    assert base62.decode('0', **kwargs) == 0
+    assert base62.decode('0000', **kwargs) == 0
+    assert base62.decode('000001', **kwargs) == 1
+
+    assert base62.encode(10231951886, **kwargs) == 'base62'
+    assert base62.decode('base62', **kwargs) == 10231951886
+
+    # NOTE: For backward compatibility. When I first wrote this module in PHP,
+    # I used to use the `0z` prefix to denote a base62 encoded string (similar
+    # to `0x` for hexadecimal strings).
+    assert base62.decode('0zbase62', **kwargs) == 10231951886
 
 
 @pytest.mark.parametrize('b, i', bytes_int_pairs)
