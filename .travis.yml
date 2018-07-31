@@ -10,6 +10,10 @@ python:
   - "3.6"
   # - "pypy"  # disable pypy builds until supported by trusty containers
 
+addons:
+  sonarcloud:
+    organization: "suminb-github"
+
 install:
   - pip install --requirement tests/requirements.txt
 
@@ -18,3 +22,4 @@ script:
 
 after_success:
   - coveralls
+  - sonar-scanner
