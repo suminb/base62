@@ -100,3 +100,13 @@ If ``pytest`` is not installed, you may want to run the following commands:
 ::
 
     pip install -r tests/requirements.txt
+
+
+Deployment
+==========
+
+Deploy a source package (to `pypi <https://pypi.org>`_) as follows:
+
+::
+
+    python setup.py sdist upload
