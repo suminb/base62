@@ -12,6 +12,8 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
+  - "3.8-dev"
   # - "pypy"  # disable pypy builds until supported by trusty containers
 
 install:
