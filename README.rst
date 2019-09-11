@@ -22,13 +22,13 @@ When writing a web application, often times we would like to keep the URLs short
 
 ::
 
-    http://localhost/post/V1Biicwt
+    http://localhost/posts/V1Biicwt
 
 This certainly gives a more concise look than the following.
 
 ::
 
-    http://localhost/post/109237591284123
+    http://localhost/posts/109237591284123
 
 This was the original motivation to write this module, but there shall be much
 more broader potential use cases of this module. The main advantage of
