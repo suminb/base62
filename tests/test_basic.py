@@ -1,3 +1,5 @@
+import sys
+
 import pytest
 
 import base62
@@ -66,6 +68,9 @@ def test_encodebytes(b, i):
     assert base62.encodebytes(b) == base62.encode(i)
 
 
+@pytest.mark.skipif(
+    sys.version_info < (3, 0),
+    reason='Python 2.x does not have clear distinction between str and bytes types')
 def test_encodebytes_type():
     with pytest.raises(TypeError):
         base62.encodebytes('1234')
@@ -82,6 +87,9 @@ def test_decodebytes(s):
     assert base62.bytes_to_int(base62.decodebytes(s)) == base62.decode(s)
 
 
+@pytest.mark.skipif(
+    sys.version_info < (3, 0),
+    reason='Python 2.x does not have clear distinction between str and bytes types')
 def test_decodebytes_type():
     with pytest.raises(TypeError):
         base62.decodebytes(b'1234')
