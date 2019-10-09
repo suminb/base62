@@ -91,6 +91,7 @@ def decodebytes(s, charset=CHARSET_DEFAULT):
     """Decodes a string of base62 data into a bytes object.
 
     :param s: A string to be decoded in base62
+    :type s: str
     :rtype: bytes
     """
 

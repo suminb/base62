@@ -77,6 +77,12 @@ def test_decodebytes(s):
     assert base62.bytes_to_int(base62.decodebytes(s)) == base62.decode(s)
 
 
+def test_decodebytes_rtype():
+    """Make sure the return type of decodebytes() is bytes."""
+    decoded = base62.decodebytes('1234')
+    assert isinstance(decoded, bytes)
+
+
 @pytest.mark.parametrize('input_bytes', [
     b'', b'0', b'bytes to encode', b'\x01\x00\x80'])
 def test_roundtrip(input_bytes):
