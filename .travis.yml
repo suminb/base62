@@ -1,18 +1,17 @@
-dist: trusty
 sudo: false
 language: python
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8-dev"
+  # - "pypy"  # disable pypy builds until supported by trusty containers
+  # Python development lifecycle: https://devguide.python.org/devcycle/
 
 addons:
   sonarcloud:
     organization: "suminb-github"
-
-python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  # - "pypy"  # disable pypy builds until supported by trusty containers
 
 install:
   - pip install --requirement tests/requirements.txt
