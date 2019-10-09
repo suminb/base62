@@ -19,6 +19,13 @@ CHARSET_INVERTED = (
     '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 )
 
+try:
+    # NOTE: This is for Python 2. Shall be removed as soon as Python 2 is
+    # deprecated.
+    string_types = (str, unicode)
+except NameError:
+    string_types = (str,)
+
 
 def bytes_to_int(s, byteorder='big', signed=False):
     """Converts a byte array to an integer value.
@@ -95,6 +102,7 @@ def decodebytes(s, charset=CHARSET_DEFAULT):
     :rtype: bytes
     """
 
+    _check_type(s, string_types)
     decoded = decode(s, charset=charset)
     buf = bytearray()
     while decoded > 0:
