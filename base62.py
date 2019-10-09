@@ -23,8 +23,10 @@ try:
     # NOTE: This is for Python 2. Shall be removed as soon as Python 2 is
     # deprecated.
     string_types = (str, unicode)
+    bytes_types = (bytes, bytearray,)
 except NameError:
     string_types = (str,)
+    bytes_types = (bytes,)
 
 
 def bytes_to_int(s, byteorder='big', signed=False):
@@ -76,7 +78,7 @@ def encodebytes(s, charset=CHARSET_DEFAULT):
     :rtype: str
     """
 
-    _check_type(s, bytes)
+    _check_type(s, bytes_types)
     return encode(bytes_to_int(s), charset=charset)
 
 
