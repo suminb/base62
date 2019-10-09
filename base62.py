@@ -69,7 +69,7 @@ def encodebytes(s, charset=CHARSET_DEFAULT):
     :rtype: str
     """
 
-    _check_bytes_type(s)
+    _check_type(s, bytes)
     return encode(bytes_to_int(s), charset=charset)
 
 
@@ -114,9 +114,10 @@ def _value(ch, charset):
         raise ValueError('base62: Invalid character (%s)' % ch)
 
 
-def _check_bytes_type(s):
+def _check_type(value, expected_type):
     """Checks if the input is in an appropriate type."""
 
-    if not isinstance(s, bytes):
-        msg = 'expected bytes-like object, not %s' % s.__class__.__name__
+    if not isinstance(value, expected_type):
+        msg = 'Expected {} object, not {}'.format(
+            expected_type, value.__class__.__name__)
         raise TypeError(msg)
