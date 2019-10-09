@@ -65,6 +65,8 @@ def encodebytes(s, charset=CHARSET_DEFAULT):
     """Encodes a bytestring into a base62 string.
 
     :param s: A byte array
+    :type s: bytes
+    :rtype: str
     """
 
     _check_bytes_type(s)

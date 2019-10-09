@@ -66,7 +66,13 @@ def test_encodebytes(b, i):
     assert base62.encodebytes(b) == base62.encode(i)
 
 
-@pytest.mark.parametrize('s', ['0', '1', 'a', 'z', 'ykzvd7ga'])
+def test_encodebytes_rtype():
+    """Make sure the return type of encodebytes() is string."""
+    encoded = base62.encodebytes(b'1234')
+    assert isinstance(encoded, str)
+
+
+@pytest.mark.parametrize('s', ['0', '1', 'a', 'z', 'ykzvd7ga', '0z1234'])
 def test_decodebytes(s):
     assert base62.bytes_to_int(base62.decodebytes(s)) == base62.decode(s)
 
