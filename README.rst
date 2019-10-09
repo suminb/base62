@@ -93,8 +93,8 @@ whereas ``decodebytes()`` takes ``str`` types as an input. They are intended
 to be commutative, so that a *roundtrip* between both functions yields the
 original value.
 
-Formally speaking, we say function :math:`f` and :math:`g` commute if
-:math:`f \circ g = g \circ f` where :math:`f(g(x)) = (f \circ g)(x)`.
+Formally speaking, we say function *f* and *g* commute if *f∘g* = *g∘f* where
+*f(g(x))* = *(f∘g)(x)*.
 
 Therefore, we may expect the following relationships:
 
