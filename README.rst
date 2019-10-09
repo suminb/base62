@@ -18,7 +18,8 @@ in mid-2000, which can be found
 Rationale
 ---------
 
-When writing a web application, often times we would like to keep the URLs short.
+When writing a web application, often times we would like to keep the URLs
+short.
 
 ::
 
@@ -95,7 +96,7 @@ You may run some test cases to ensure all functionalities are operational.
 
     py.test -v
 
-If ``pytest`` is not installed, you may want to run the following commands:
+If ``pytest`` is not installed, you may want to run the following command:
 
 ::
 
