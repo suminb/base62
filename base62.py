@@ -82,30 +82,34 @@ def encodebytes(s, charset=CHARSET_DEFAULT):
     return encode(bytes_to_int(s), charset=charset)
 
 
-def decode(b, charset=CHARSET_DEFAULT):
-    """Decodes a base62 encoded value ``b``."""
+def decode(encoded, charset=CHARSET_DEFAULT):
+    """Decodes a base62 encoded value ``encoded``.
 
-    if b.startswith('0z'):
-        b = b[2:]
+    :type encoded: str
+    :rtype: int
+    """
+    _check_type(encoded, string_types)
 
-    l, i, v = len(b), 0, 0
-    for x in b:
+    if encoded.startswith('0z'):
+        encoded = encoded[2:]
+
+    l, i, v = len(encoded), 0, 0
+    for x in encoded:
         v += _value(x, charset=charset) * (BASE ** (l - (i + 1)))
         i += 1
 
     return v
 
 
-def decodebytes(s, charset=CHARSET_DEFAULT):
+def decodebytes(encoded, charset=CHARSET_DEFAULT):
     """Decodes a string of base62 data into a bytes object.
 
-    :param s: A string to be decoded in base62
-    :type s: str
+    :param encoded: A string to be decoded in base62
+    :type encoded: str
     :rtype: bytes
     """
 
-    _check_type(s, string_types)
-    decoded = decode(s, charset=charset)
+    decoded = decode(encoded, charset=charset)
     buf = bytearray()
     while decoded > 0:
         buf.append(decoded & 0xff)
