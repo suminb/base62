@@ -18,7 +18,8 @@ in mid-2000, which can be found
 Rationale
 ---------
 
-When writing a web application, often times we would like to keep the URLs short.
+When writing a web application, often times we would like to keep the URLs
+short.
 
 ::
 
@@ -86,6 +87,20 @@ From version ``0.2.0``, ``base62`` supports ``bytes`` array encoding as well.
     >>> base62.decodebytes('1')
     b'\x01'
 
+Some may be inclined to assume that they both take ``bytes`` types as input
+due to their namings. However, ``encodebytes()`` takes ``bytes`` types
+whereas ``decodebytes()`` takes ``str`` types as an input. They are intended
+to be commutative, so that a *roundtrip* between both functions yields the
+original value.
+
+Formally speaking, we say function :math:`f` and :math:`g` commute if
+:math:`f \circ g = g \circ f` where :math:`f(g(x)) = (f \circ g)(x)`.
+
+Therefore, we may expect the following relationships:
+
+* ``value == encodebytes(decodebytes(value))``
+* ``value == decodebytes(encodebytes(value))``
+
 Tests
 =====
 
@@ -95,7 +110,7 @@ You may run some test cases to ensure all functionalities are operational.
 
     py.test -v
 
-If ``pytest`` is not installed, you may want to run the following commands:
+If ``pytest`` is not installed, you may want to run the following command:
 
 ::
 
