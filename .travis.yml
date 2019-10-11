@@ -6,8 +6,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8-dev"
-  # - "pypy"  # disable pypy builds until supported by trusty containers
-  # Python development lifecycle: https://devguide.python.org/devcycle/
+  - "pypy"
 
 addons:
   sonarcloud:
