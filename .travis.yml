@@ -14,8 +14,13 @@ addons:
 
 install:
   - pip install --requirement tests/requirements.txt
+  - pip install "black; python_version >= '3.6'"
 
 script:
+  - |
+    if [ -x "$(command -v black)" ]; then
+      black --check .
+    fi
   - py.test tests --cov base62 --durations=10
 
 after_success:
