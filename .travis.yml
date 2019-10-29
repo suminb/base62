@@ -14,8 +14,10 @@ addons:
 
 install:
   - pip install --requirement tests/requirements.txt
+  - pip install black
 
 script:
+  - black --check .
   - py.test tests --cov base62 --durations=10
 
 after_success:
