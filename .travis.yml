@@ -6,8 +6,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8-dev"
-  # - "pypy"  # disable pypy builds until supported by trusty containers
-  # Python development lifecycle: https://devguide.python.org/devcycle/
+  - "pypy"
 
 addons:
   sonarcloud:
@@ -15,8 +14,13 @@ addons:
 
 install:
   - pip install --requirement tests/requirements.txt
+  - pip install "black; python_version >= '3.6'"
 
 script:
+  - |
+    if [ -x "$(command -v black)" ]; then
+      black --check .
+    fi
   - py.test tests --cov base62 --durations=10
 
 after_success:
