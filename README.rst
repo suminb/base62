@@ -5,7 +5,7 @@ base62
 
 A Python module for ``base62`` encoding. Ported from PHP code that I wrote
 in mid-2000, which can be found
-`here <http://blog.suminb.com/archives/558>`__.
+`here <http://philosophical.one/posts/base62>`__.
 
 .. |Build Status| image:: https://travis-ci.org/suminb/base62.svg?branch=master
    :target: https://travis-ci.org/suminb/base62
