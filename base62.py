@@ -9,7 +9,7 @@ Originated from http://blog.suminb.com/archives/558
 __title__ = "base62"
 __author__ = "Sumin Byeon"
 __email__ = "suminb@gmail.com"
-__version__ = "0.4.3"
+__version__ = "0.5.0"
 
 BASE = 62
 CHARSET_DEFAULT = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
