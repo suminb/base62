@@ -11,7 +11,6 @@ __author__ = "Sumin Byeon"
 __email__ = "suminb@gmail.com"
 __version__ = "0.5.0"
 
-BASE = 62
 CHARSET_DEFAULT = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 CHARSET_INVERTED = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -51,11 +50,12 @@ def bytes_to_int(barray, byteorder="big", signed=False):
 
 def encode(n, minlen=1, charset=CHARSET_DEFAULT):
     """Encodes a given integer ``n``."""
+    base = len(charset)
 
     chs = []
     while n > 0:
-        r = n % BASE
-        n //= BASE
+        r = n % base
+        n //= base
 
         chs.append(charset[r])
 
@@ -88,6 +88,7 @@ def decode(encoded, charset=CHARSET_DEFAULT):
     :rtype: int
     """
     _check_type(encoded, string_types)
+    base = len(charset)
 
     if encoded.startswith("0z"):
         encoded = encoded[2:]
