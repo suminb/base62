@@ -15,39 +15,6 @@ BASE = 62
 CHARSET_DEFAULT = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 CHARSET_INVERTED = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-try:
-    # NOTE: This is for Python 2. Shall be removed as soon as Python 2 is
-    # deprecated.
-    string_types = (str, unicode)
-    bytes_types = (
-        bytes,
-        bytearray,
-    )
-except NameError:
-    string_types = (str,)
-    bytes_types = (bytes,)
-
-
-def bytes_to_int(barray, byteorder="big", signed=False):
-    """Converts a byte array to an integer value.
-
-    Python 3 comes with a built-in function to do this, but we would like to
-    keep our code Python 2 compatible.
-    """
-
-    try:
-        return int.from_bytes(barray, byteorder, signed=signed)
-    except AttributeError:
-        # For Python 2.x
-        if byteorder != "big" or signed:
-            raise NotImplementedError()
-
-        # NOTE: This won't work if a generator is given
-        n = len(barray)
-        ds = (x << (8 * (n - 1 - i)) for i, x in enumerate(bytearray(barray)))
-
-        return sum(ds)
-
 
 def encode(n, minlen=1, charset=CHARSET_DEFAULT):
     """Encodes a given integer ``n``."""
@@ -77,8 +44,8 @@ def encodebytes(barray, charset=CHARSET_DEFAULT):
     :rtype: str
     """
 
-    _check_type(barray, bytes_types)
-    return encode(bytes_to_int(barray), charset=charset)
+    _check_type(barray, bytes)
+    return encode(int.from_bytes(barray, "big"), charset=charset)
 
 
 def decode(encoded, charset=CHARSET_DEFAULT):
@@ -87,7 +54,7 @@ def decode(encoded, charset=CHARSET_DEFAULT):
     :type encoded: str
     :rtype: int
     """
-    _check_type(encoded, string_types)
+    _check_type(encoded, str)
 
     if encoded.startswith("0z"):
         encoded = encoded[2:]
