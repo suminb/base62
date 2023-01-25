@@ -16,24 +16,18 @@ CHARSET_DEFAULT = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy
 CHARSET_INVERTED = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
-def encode(n, minlen=1, charset=CHARSET_DEFAULT):
+def encode(n, charset=CHARSET_DEFAULT):
     """Encodes a given integer ``n``."""
 
     chs = []
     while n > 0:
-        r = n % BASE
-        n //= BASE
+        n, r = divmod(n, BASE)
+        chs.insert(0, charset[r])
 
-        chs.append(charset[r])
+    if not chs:
+        return "0"
 
-    if len(chs) > 0:
-        chs.reverse()
-    else:
-        chs.append("0")
-
-    s = "".join(chs)
-    s = charset[0] * max(minlen - len(s), 0) + s
-    return s
+    return "".join(chs)
 
 
 def encodebytes(barray, charset=CHARSET_DEFAULT):
@@ -45,7 +39,27 @@ def encodebytes(barray, charset=CHARSET_DEFAULT):
     """
 
     _check_type(barray, bytes)
-    return encode(int.from_bytes(barray, "big"), charset=charset)
+
+    # Count the number of leading zeros.
+    leading_zeros_count = 0
+    for i in range(len(barray)):
+        if barray[i] != 0:
+            break
+        leading_zeros_count += 1
+
+    # Encode the leading zeros as "0" followed by a character indicating the count.
+    # This pattern may occur several times if there are many leading zeros.
+    n, r = divmod(leading_zeros_count, len(charset) - 1)
+    zero_padding = f"0{charset[-1]}" * n
+    if r:
+        zero_padding += f"0{charset[r]}"
+
+    # Special case: the input is empty, or is entirely null bytes.
+    if leading_zeros_count == len(barray):
+        return zero_padding
+
+    value = encode(int.from_bytes(barray, "big"), charset=charset)
+    return zero_padding + value
 
 
 def decode(encoded, charset=CHARSET_DEFAULT):
@@ -55,9 +69,6 @@ def decode(encoded, charset=CHARSET_DEFAULT):
     :rtype: int
     """
     _check_type(encoded, str)
-
-    if encoded.startswith("0z"):
-        encoded = encoded[2:]
 
     l, i, v = len(encoded), 0, 0
     for x in encoded:
@@ -75,6 +86,11 @@ def decodebytes(encoded, charset=CHARSET_DEFAULT):
     :rtype: bytes
     """
 
+    leading_null_bytes = b""
+    while encoded.startswith("0") and len(encoded) >= 2:
+        leading_null_bytes += b"\x00" * _value(encoded[1], charset)
+        encoded = encoded[2:]
+
     decoded = decode(encoded, charset=charset)
     buf = bytearray()
     while decoded > 0:
@@ -82,7 +98,7 @@ def decodebytes(encoded, charset=CHARSET_DEFAULT):
         decoded //= 256
     buf.reverse()
 
-    return bytes(buf)
+    return leading_null_bytes + bytes(buf)
 
 
 def _value(ch, charset):
