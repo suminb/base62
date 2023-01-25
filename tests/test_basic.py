@@ -113,3 +113,23 @@ def test_invalid_alphabet():
 def test_invalid_string():
     with pytest.raises(TypeError):
         base62.encodebytes({})
+
+
+@pytest.mark.parametrize(
+    "input_bytes, expected_encoded_text",
+    (
+        (b"", ""),
+        (b"\x00", "01"),
+        (b"\x00\x00", "02"),
+        (b"\x00\x01", "011"),
+        (b"\x00" * 61, "0z"),
+        (b"\x00" * 62, "0z01"),
+    ),
+)
+def test_leading_zeros(input_bytes, expected_encoded_text):
+    """Verify that leading null bytes are not lost."""
+
+    encoded_text = base62.encodebytes(input_bytes)
+    assert encoded_text == expected_encoded_text
+    output_bytes = base62.decodebytes(encoded_text)
+    assert output_bytes == input_bytes
