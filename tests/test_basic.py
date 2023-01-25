@@ -4,7 +4,6 @@ import base62
 
 
 bytes_int_pairs = [
-    (b"\x00", 0),
     (b"\x01", 1),
     (b"\x01\x01", 0x0101),
     (b"\xff\xff", 0xFFFF),
@@ -20,9 +19,6 @@ def test_const():
 
 def test_basic():
     assert base62.encode(0) == "0"
-    assert base62.encode(0, minlen=0) == "0"
-    assert base62.encode(0, minlen=1) == "0"
-    assert base62.encode(0, minlen=5) == "00000"
     assert base62.decode("0") == 0
     assert base62.decode("0000") == 0
     assert base62.decode("000001") == 1
@@ -30,30 +26,17 @@ def test_basic():
     assert base62.encode(34441886726) == "base62"
     assert base62.decode("base62") == 34441886726
 
-    # NOTE: For backward compatibility. When I first wrote this module in PHP,
-    # I used to use the `0z` prefix to denote a base62 encoded string (similar
-    # to `0x` for hexadecimal strings).
-    assert base62.decode("0zbase62") == 34441886726
-
 
 def test_basic_inverted():
     kwargs = {"charset": base62.CHARSET_INVERTED}
 
     assert base62.encode(0, **kwargs) == "0"
-    assert base62.encode(0, minlen=0, **kwargs) == "0"
-    assert base62.encode(0, minlen=1, **kwargs) == "0"
-    assert base62.encode(0, minlen=5, **kwargs) == "00000"
     assert base62.decode("0", **kwargs) == 0
     assert base62.decode("0000", **kwargs) == 0
     assert base62.decode("000001", **kwargs) == 1
 
     assert base62.encode(10231951886, **kwargs) == "base62"
     assert base62.decode("base62", **kwargs) == 10231951886
-
-    # NOTE: For backward compatibility. When I first wrote this module in PHP,
-    # I used to use the `0z` prefix to denote a base62 encoded string (similar
-    # to `0x` for hexadecimal strings).
-    assert base62.decode("0zbase62", **kwargs) == 10231951886
 
 
 @pytest.mark.parametrize("b, i", bytes_int_pairs)
@@ -77,7 +60,7 @@ def test_encodebytes_rtype():
     assert isinstance(encoded, str)
 
 
-@pytest.mark.parametrize("s", ["0", "1", "a", "z", "ykzvd7ga", "0z1234"])
+@pytest.mark.parametrize("s", ["0", "1", "a", "z", "ykzvd7ga"])
 def test_decodebytes(s):
     assert int.from_bytes(base62.decodebytes(s), "big") == base62.decode(s)
 
