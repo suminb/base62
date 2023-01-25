@@ -108,7 +108,7 @@ You may run some test cases to ensure all functionalities are operational.
 
 ::
 
-    py.test -v
+    pytest -v
 
 If ``pytest`` is not installed, you may want to run the following command:
 
