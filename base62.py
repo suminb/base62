@@ -1,105 +1,120 @@
+# -*- coding: utf-8 -*-
 """
-Original PHP code from http://blog.suminb.com/archives/558
+base62
+~~~~~~
+
+Originated from http://blog.suminb.com/archives/558
 """
 
-__author__ = 'Sumin Byeon'
-__email__ = 'suminb@gmail.com'
-__version__ = '0.3.1'
+__title__ = "base62"
+__author__ = "Sumin Byeon"
+__email__ = "suminb@gmail.com"
+__version__ = "1.0.0"
 
-CHARSET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 BASE = 62
-DEFAULT_ENCODING = 'utf-8'
+CHARSET_DEFAULT = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+CHARSET_INVERTED = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
-def bytes_to_int(s, byteorder='big', signed=False):
-    """Converts a byte array to an integer value. Python 3 comes with a
-    built-in function to do this, but we would like to keep our code Python 2
-    compatible.
-    """
-    try:
-        return int.from_bytes(s, byteorder, signed=signed)
-    except AttributeError:
-        # For Python 2.x
-        if byteorder != 'big' or signed:
-            raise NotImplementedError()
-
-        # NOTE: This won't work if a generator is given
-        n = len(s)
-        ds = (x << (8 * (n - 1 - i)) for i, x in enumerate(bytearray(s)))
-
-        return sum(ds)
-
-
-def encode(n, minlen=1):
+def encode(n, charset=CHARSET_DEFAULT):
     """Encodes a given integer ``n``."""
 
     chs = []
     while n > 0:
-        r = n % BASE
-        n //= BASE
+        n, r = divmod(n, BASE)
+        chs.insert(0, charset[r])
 
-        chs.append(CHARSET[r])
+    if not chs:
+        return "0"
 
-    if len(chs) > 0:
-        chs.reverse()
-    else:
-        chs.append('0')
-
-    s = ''.join(chs)
-    s = CHARSET[0] * max(minlen - len(s), 0) + s
-    return s
+    return "".join(chs)
 
 
-def encodebytes(s):
-    """Encode a bytestring into a base62 string.
+def encodebytes(barray, charset=CHARSET_DEFAULT):
+    """Encodes a bytestring into a base62 string.
 
-    :param s: A byte array
+    :param barray: A byte array
+    :type barray: bytes
+    :rtype: str
     """
-    _check_bytes_type(s)
-    return encode(bytes_to_int(s))
+
+    _check_type(barray, bytes)
+
+    # Count the number of leading zeros.
+    leading_zeros_count = 0
+    for i in range(len(barray)):
+        if barray[i] != 0:
+            break
+        leading_zeros_count += 1
+
+    # Encode the leading zeros as "0" followed by a character indicating the count.
+    # This pattern may occur several times if there are many leading zeros.
+    n, r = divmod(leading_zeros_count, len(charset) - 1)
+    zero_padding = f"0{charset[-1]}" * n
+    if r:
+        zero_padding += f"0{charset[r]}"
+
+    # Special case: the input is empty, or is entirely null bytes.
+    if leading_zeros_count == len(barray):
+        return zero_padding
+
+    value = encode(int.from_bytes(barray, "big"), charset=charset)
+    return zero_padding + value
 
 
-def decode(b):
-    """Encodes a base62 encoded value ``b``."""
+def decode(encoded, charset=CHARSET_DEFAULT):
+    """Decodes a base62 encoded value ``encoded``.
 
-    if b.startswith('0z'):
-        b = b[2:]
+    :type encoded: str
+    :rtype: int
+    """
+    _check_type(encoded, str)
 
-    l, i, v = len(b), 0, 0
-    for x in b:
-        v += __value__(x) * (BASE ** (l - (i + 1)))
+    l, i, v = len(encoded), 0, 0
+    for x in encoded:
+        v += _value(x, charset=charset) * (BASE ** (l - (i + 1)))
         i += 1
 
     return v
 
 
-def decodebytes(s):
+def decodebytes(encoded, charset=CHARSET_DEFAULT):
     """Decodes a string of base62 data into a bytes object.
 
-    :param s: A string to be decoded in base62
+    :param encoded: A string to be decoded in base62
+    :type encoded: str
     :rtype: bytes
     """
-    decoded = decode(s)
+
+    leading_null_bytes = b""
+    while encoded.startswith("0") and len(encoded) >= 2:
+        leading_null_bytes += b"\x00" * _value(encoded[1], charset)
+        encoded = encoded[2:]
+
+    decoded = decode(encoded, charset=charset)
     buf = bytearray()
     while decoded > 0:
-        buf.append(decoded & 0xff)
+        buf.append(decoded & 0xFF)
         decoded //= 256
     buf.reverse()
 
-    return bytes(buf)
+    return leading_null_bytes + bytes(buf)
 
 
-def __value__(ch):
+def _value(ch, charset):
     """Decodes an individual digit of a base62 encoded string."""
 
     try:
-        return CHARSET.index(ch)
+        return charset.index(ch)
     except ValueError:
-        raise ValueError('base62: Invalid character (%s)' % ch)
+        raise ValueError("base62: Invalid character (%s)" % ch)
 
 
-def _check_bytes_type(s):
+def _check_type(value, expected_type):
     """Checks if the input is in an appropriate type."""
-    if not isinstance(s, bytes):
-        msg = 'expected bytes-like object, not %s' % s.__class__.__name__
+
+    if not isinstance(value, expected_type):
+        msg = "Expected {} object, not {}".format(
+            expected_type, value.__class__.__name__
+        )
         raise TypeError(msg)
