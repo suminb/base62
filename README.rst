@@ -90,16 +90,18 @@ From version ``0.2.0``, ``base62`` supports ``bytes`` array encoding as well.
 Some may be inclined to assume that they both take ``bytes`` types as input
 due to their namings. However, ``encodebytes()`` takes ``bytes`` types
 whereas ``decodebytes()`` takes ``str`` types as an input. They are intended
-to be commutative, so that a *roundtrip* between both functions yields the
+to be inverses, so that a *roundtrip* between both functions yields the
 original value.
 
-Formally speaking, we say function *f* and *g* commute if *f∘g* = *g∘f* where
-*f(g(x))* = *(f∘g)(x)*.
+Formally speaking, we say functions *f* and *g* are inverses if *f∘g* is the 
+identity function on the domain of *g* and  *g∘f* is the identity function
+on the domain of *f*. Where *(f∘g)(x)* = *f(g(x))* and the identity function
+returns the original input: *id(x) = x*.
 
 Therefore, we may expect the following relationships:
 
-* ``value == encodebytes(decodebytes(value))``
-* ``value == decodebytes(encodebytes(value))``
+* ``value_str == encodebytes(decodebytes(value_str))``
+* ``value_bytes == decodebytes(encodebytes(value_bytes))``
 
 Tests
 =====
