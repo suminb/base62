@@ -2,7 +2,6 @@ import pytest
 
 import base62
 
-
 bytes_int_pairs = [
     (b"\x01", 1),
     (b"\x01\x01", 0x0101),
