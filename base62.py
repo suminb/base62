@@ -25,7 +25,7 @@ def encode(n, charset=CHARSET_DEFAULT):
         chs.insert(0, charset[r])
 
     if not chs:
-        return "0"
+        return charset[0]
 
     return "".join(chs)
 
@@ -50,9 +50,9 @@ def encodebytes(barray, charset=CHARSET_DEFAULT):
     # Encode the leading zeros as "0" followed by a character indicating the count.
     # This pattern may occur several times if there are many leading zeros.
     n, r = divmod(leading_zeros_count, len(charset) - 1)
-    zero_padding = f"0{charset[-1]}" * n
+    zero_padding = f"{charset[0]}{charset[-1]}" * n
     if r:
-        zero_padding += f"0{charset[r]}"
+        zero_padding += f"{charset[0]}{charset[r]}"
 
     # Special case: the input is empty, or is entirely null bytes.
     if leading_zeros_count == len(barray):
@@ -87,7 +87,7 @@ def decodebytes(encoded, charset=CHARSET_DEFAULT):
     """
 
     leading_null_bytes = b""
-    while encoded.startswith("0") and len(encoded) >= 2:
+    while encoded.startswith(charset[0]) and len(encoded) >= 2:
         leading_null_bytes += b"\x00" * _value(encoded[1], charset)
         encoded = encoded[2:]
 

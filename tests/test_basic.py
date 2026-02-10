@@ -3,6 +3,8 @@ import pytest
 import base62
 
 
+CHARSET_QWERTY = "1234567890QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm"
+
 bytes_int_pairs = [
     (b"\x01", 1),
     (b"\x01\x01", 0x0101),
@@ -37,6 +39,18 @@ def test_basic_inverted():
 
     assert base62.encode(10231951886, **kwargs) == "base62"
     assert base62.decode("base62", **kwargs) == 10231951886
+
+
+def test_basic_qwerty():
+    kwargs = {"charset": CHARSET_QWERTY}
+
+    assert base62.encode(0, **kwargs) == "1"
+    assert base62.decode("1", **kwargs) == 0
+    assert base62.decode("1111", **kwargs) == 0
+    assert base62.decode("111112", **kwargs) == 1
+
+    assert base62.encode(54742896343, **kwargs) == "base62"
+    assert base62.decode("base62", **kwargs) == 54742896343
 
 
 @pytest.mark.parametrize("b, i", bytes_int_pairs)
