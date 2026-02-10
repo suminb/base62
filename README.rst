@@ -93,7 +93,7 @@ whereas ``decodebytes()`` takes ``str`` types as an input. They are intended
 to be inverses, so that a *roundtrip* between both functions yields the
 original value.
 
-Formally speaking, we say functions *f* and *g* are inverses if *f∘g* is the 
+Formally speaking, we say functions *f* and *g* are inverses if *f∘g* is the
 identity function on the domain of *g* and  *g∘f* is the identity function
 on the domain of *f*. Where *(f∘g)(x)* = *f(g(x))* and the identity function
 returns the original input: *id(x) = x*.
